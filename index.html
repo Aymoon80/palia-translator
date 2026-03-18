@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Palia Neon Translator</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      color: white;
+      text-align: center;
+      background: radial-gradient(circle at center, #0a0f2a, #020412);
+      overflow-x: hidden;
+    }
+
+    /* 🌌 Animated background glow */
+    body::before {
+      content: "";
+      position: fixed;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(
+        from 0deg,
+        #6a5cff,
+        #00eaff,
+        #ff00cc,
+        #6a5cff
+      );
+      animation: spin 20s linear infinite;
+      opacity: 0.1;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    h1 {
+      margin-top: 30px;
+      font-size: 2.5em;
+      text-shadow: 0 0 20px #6a5cff;
+    }
+
+    textarea {
+      width: 80%;
+      height: 100px;
+      margin: 15px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      background: #0d132f;
+      color: white;
+      box-shadow: 0 0 10px #6a5cff;
+    }
+
+    button {
+      padding: 12px 20px;
+      margin: 8px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(45deg, #6a5cff, #00eaff);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px #6a5cff;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00eaff;
+    }
+
+    .output-box {
+      width: 80%;
+      margin: 20px auto;
+      min-height: 120px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #0d132f;
+      box-shadow: 0 0 15px #00eaff;
+    }
+
+    .rune {
+      width: 45px;
+      margin: 4px;
+      filter: drop-shadow(0 0 8px #00eaff);
+      transition: 0.2s;
+    }
+
+    .rune:hover {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 15px #ff00cc);
+    }
+
+    .rune-btn {
+      width: 35px;
+      margin: 5px;
+      cursor: pointer;
+      filter: drop-shadow(0 0 5px #6a5cff);
+    }
+
+    .rune-container {
+      margin: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>∞ Palia Neon Translator ∞</h1>
+
+<textarea id="input" placeholder="Type English or click runes..."></textarea>
+
+<br>
+
+<button onclick="toRunes()">English → Rune</button>
+<button onclick="toEnglish()">Rune → English</button>
+<button onclick="clearText()">Clear</button>
+
+<div id="output" class="output-box"></div>
+
+<div class="rune-container" id="runeContainer"></div>
+
+<script>
+
+// 🔗 CHANGE THIS to your GitHub Pages link later
+const baseURL = "./"; 
+
+const alphabet = {
+  A:"A.png", B:"B.png", C:"C.png", D:"D.png",
+  E:"E.png", F:"F.png", G:"G.png", H:"H.png",
+  I:"I.png", J:"J.png", K:"K.png", L:"L.png",
+  M:"M.png", N:"N.png", O:"O.png", P:"P.png",
+  Q:"Q.png", R:"R.png", S:"S.png", T:"T.png",
+  U:"U.png", V:"V.png", W:"W.png", X:"X.png",
+  Y:"Y.png", Z:"Z.png"
+};
+
+function toRunes() {
+  let input = document.getElementById("input").value.toUpperCase();
+  let output = "";
+
+  for (let char of input) {
+    if (alphabet[char]) {
+      output += `<img src="${baseURL + alphabet[char]}" class="rune">`;
+    } else if (char === " ") {
+      output += "<br>";
+    }
+  }
+
+  document.getElementById("output").innerHTML = output;
+}
+
+function toEnglish() {
+  let input = document.getElementById("input").value.toUpperCase();
+  document.getElementById("output").innerText = input;
+}
+
+function clearText() {
+  document.getElementById("input").value = "";
+  document.getElementById("output").innerHTML = "";
+}
+
+// 🖱️ Rune keyboard
+const container = document.getElementById("runeContainer");
+
+for (let letter in alphabet) {
+  let img = document.createElement("img");
+  img.src = baseURL + alphabet[letter];
+  img.className = "rune-btn";
+  img.title = letter;
+
+  img.onclick = () => {
+    document.getElementById("input").value += letter;
+  };
+
+  container.appendChild(img);
+}
+
+</script>
+
+</body>
+</html>
